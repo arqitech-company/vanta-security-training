@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arqitech Security Policy Training</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --charcoal: #101010;
+  --gray-blue: #1E1F22;
+  --white: #FFFFFF;
+  --silver: #BFC4CA;
+  --gold: #C89A3F;
+  --gold-light: #FFF1B0;
+  --green: #4FA177;
+  --dark-gradient-end: #3A3C42;
+  --off-white: #F5F0E8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: var(--charcoal);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Progress bar */
+.progress-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gray-blue);
+  z-index: 1000;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--gray-blue);
+  border-bottom: 1px solid rgba(191, 196, 202, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 999;
+}
+
+.header-logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+}
+
+.header-progress-text {
+  font-size: 13px;
+  color: var(--silver);
+}
+
+.header-progress-text span {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--gray-blue);
+  border-right: 1px solid rgba(191, 196, 202, 0.1);
+  overflow-y: auto;
+  padding: 16px 0;
+  z-index: 998;
+  transition: transform 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+.sidebar-section {
+  padding: 8px 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 8px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px;
+  color: var(--silver);
+  gap: 10px;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+  background: rgba(200, 154, 63, 0.08);
+  color: var(--white);
+}
+
+.sidebar-item.active {
+  background: rgba(200, 154, 63, 0.12);
+  color: var(--gold);
+  border-left-color: var(--gold);
+}
+
+.sidebar-item.completed .step-indicator {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.sidebar-item.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.step-indicator {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--silver);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.step-indicator.active-indicator {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.step-indicator svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Main content */
+.main {
+  margin-left: 280px;
+  margin-top: 60px;
+  min-height: calc(100vh - 60px);
+  padding: 48px 64px;
+  max-width: 900px;
+  transition: opacity 0.25s ease;
+}
+
+.main.fading-out {
+  opacity: 0;
+}
+
+.main.fading-in {
+  opacity: 0;
+}
+
+/* Step screens */
+.step-screen {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.step-screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typography */
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+h1 .gold { color: var(--gold); }
+
+.subtitle {
+  font-size: 15px;
+  color: var(--silver);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.content-text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 16px;
+}
+
+.content-text strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* Policy badge */
+.policy-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  background: rgba(200, 154, 63, 0.12);
+  border: 1px solid rgba(200, 154, 63, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+/* Checklist */
+.checklist {
+  background: rgba(30, 31, 34, 0.8);
+  border: 1px solid rgba(191, 196, 202, 0.15);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.checklist-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(191, 196, 202, 0.08);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.checklist-item:last-child {
+  border-bottom: none;
+}
+
+.checklist-item:hover {
+  opacity: 0.9;
+}
+
+.check-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--silver);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-top: 1px;
+}
+
+.check-box.checked {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.check-box svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.check-box.checked svg {
+  opacity: 1;
+}
+
+.checklist-item label {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.checklist-item.checked-item label {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: line-through;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), #D4A94F);
+  color: var(--charcoal);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(200, 154, 63, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--silver);
+  color: var(--silver);
+}
+
+.btn-secondary:hover {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  align-items: center;
+}
+
+/* Scenario cards */
+.scenario-card {
+  background: rgba(30, 31, 34, 0.8);
+  border: 1px solid rgba(191, 196, 202, 0.15);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.scenario-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.scenario-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.scenario-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 16px;
+}
+
+.scenario-questions {
+  font-size: 14px;
+  color: var(--silver);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  padding-left: 4px;
+}
+
+.scenario-questions div {
+  margin-bottom: 4px;
+}
+
+.reveal-btn {
+  background: rgba(200, 154, 63, 0.1);
+  border: 1px solid rgba(200, 154, 63, 0.3);
+  color: var(--gold);
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.reveal-btn:hover {
+  background: rgba(200, 154, 63, 0.2);
+}
+
+.scenario-answer {
+  display: none;
+  margin-top: 16px;
+  padding: 16px;
+  background: rgba(79, 161, 119, 0.08);
+  border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.scenario-answer.revealed {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.scenario-policies {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.scenario-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+/* Video step */
+.video-placeholder {
+  background: linear-gradient(135deg, var(--gray-blue), var(--dark-gradient-end));
+  border: 1px solid rgba(191, 196, 202, 0.15);
+  border-radius: 12px;
+  padding: 48px;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.video-placeholder svg {
+  width: 64px;
+  height: 64px;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+/* Certificate */
+.certificate-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.certificate {
+  background: var(--white);
+  color: var(--charcoal);
+  border-radius: 8px;
+  padding: 60px 48px;
+  max-width: 640px;
+  margin: 0 auto 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.certificate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+
+.cert-logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.cert-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+
+.cert-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+.cert-name-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.cert-name-input {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--charcoal);
+  border: none;
+  border-bottom: 2px solid var(--gold);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 0;
+  background: transparent;
+  font-family: inherit;
+  outline: none;
+}
+
+.cert-name-input::placeholder {
+  color: #ccc;
+}
+
+.cert-details {
+  margin-top: 32px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.cert-date {
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.cert-footer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Confetti */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+}
+
+/* Name input modal overlay */
+.name-input-section {
+  margin: 24px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 32px 20px; }
+}
+
+/* Policy content sections */
+.policy-section {
+  margin-bottom: 20px;
+}
+
+.highlight-box {
+  background: rgba(200, 154, 63, 0.08);
+  border: 1px solid rgba(200, 154, 63, 0.2);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Welcome stats */
+.stats-row {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.stat-card {
+  flex: 1;
+  background: rgba(30, 31, 34, 0.8);
+  border: 1px solid rgba(191, 196, 202, 0.15);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--silver);
+  margin-top: 4px;
+}
+
+/* Scroll */
+.main::-webkit-scrollbar { width: 6px; }
+.main::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="passwordGate" style="position: fixed; inset: 0; z-index: 99999; background: #101010; display: flex; align-items: center; justify-content: center;">
+  <div style="text-align: center; max-width: 400px; padding: 40px;">
+    <img src="data:image/png;base64,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" alt="Arqitech" style="height: 48px; margin-bottom: 16px;">
+    <div style="font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 4px;">Security Policy Training</div>
+    <div style="font-size: 14px; color: #BFC4CA; margin-bottom: 32px;">Enter the password to continue</div>
+    <input type="password" id="passwordInput" placeholder="Password" autocomplete="off" style="
+      width: 100%; padding: 14px 16px; border-radius: 8px; border: 1px solid rgba(191,196,202,0.3);
+      background: #1E1F22; color: #fff; font-size: 15px; font-family: inherit; outline: none;
+      text-align: center; letter-spacing: 1px;
+    " onkeydown="if(event.key==='Enter')checkPassword()">
+    <div id="passwordError" style="color: #e55; font-size: 13px; margin-top: 10px; opacity: 0; transition: opacity 0.2s;">Incorrect password</div>
+    <button onclick="checkPassword()" style="
+      margin-top: 20px; padding: 14px 40px; border-radius: 8px; border: none;
+      background: linear-gradient(135deg, #C89A3F, #D4A94F); color: #101010;
+      font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit;
+    ">Enter</button>
+  </div>
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-bar-container" style="display:none;" id="appShell1">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Header -->
+<div class="header" style="display:none;" id="appShell2">
+  <div class="header-logo"><img src="data:image/png;base64,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" alt="Arqitech" style="height: 28px;"></div>
+  <div class="header-progress-text">
+    <span id="completedCount">0</span> of <span id="totalSteps">18</span> steps completed
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar" style="display:none;"></div>
+
+<!-- Main Content -->
+<div class="main" id="mainContent" style="display:none;"></div>
+
+<script>
+// ============================================================
+// PASSWORD GATE
+// ============================================================
+
+const PASS_HASH = '8809ee586aed437d1254d27be06fdda63eec58540523d684d8d203063e9b9914';
+
+async function hashPassword(pw) {
+  const encoded = new TextEncoder().encode(pw);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', encoded);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const input = document.getElementById('passwordInput').value;
+  const hashed = await hashPassword(input);
+  if (hashed === PASS_HASH) {
+    document.getElementById('passwordGate').style.opacity = '0';
+    document.getElementById('passwordGate').style.transition = 'opacity 0.3s ease';
+    setTimeout(() => {
+      document.getElementById('passwordGate').style.display = 'none';
+      document.getElementById('appShell1').style.display = '';
+      document.getElementById('appShell2').style.display = '';
+      document.getElementById('sidebar').style.display = '';
+      document.getElementById('mainContent').style.display = '';
+    }, 300);
+  } else {
+    document.getElementById('passwordError').style.opacity = '1';
+    document.getElementById('passwordInput').value = '';
+    setTimeout(() => { document.getElementById('passwordError').style.opacity = '0'; }, 2000);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('passwordInput').focus();
+});
+
+// ============================================================
+// DATA
+// ============================================================
+
+const STEPS = [
+  {
+    id: 'welcome',
+    title: 'Welcome',
+    section: 'Getting Started',
+    type: 'welcome'
+  },
+  {
+    id: 'video',
+    title: 'Security Video',
+    section: 'Getting Started',
+    type: 'video'
+  },
+  {
+    id: 'policy-1',
+    title: 'Code of Conduct',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 1 of 15',
+    intro: "This policy is pretty straightforward. It covers how we treat each other at Arqitech. If you've worked in any professional environment before, most of this will feel familiar.",
+    content: `<p class="content-text">The short version: be respectful, be welcoming, don't harass anyone, and speak up if you see something wrong. The policy covers what "acceptable" and "unacceptable" behavior looks like, includes a weapons policy (no weapons at company locations or events), and explains how to report violations.</p>
+<p class="content-text">One thing worth noting: this policy applies everywhere you're doing company business — in the office, at events, on Slack, on email, and even at social gatherings if they're company-sponsored. It also applies if your behavior outside of work directly impacts colleagues or clients.</p>
+<p class="content-text">The policy also makes clear that retaliation against someone who reports a concern is itself a violation. So if you see something and report it, you're protected.</p>`,
+    checklist: [
+      "I understand what behaviors are expected (be welcoming, considerate, respectful, collaborative)",
+      "I understand what behaviors are unacceptable (harassment, discrimination, violence, threats, intimidation, doxing)",
+      "I know that this applies everywhere I do company business: office, remote, events, Slack, email",
+      "I know that no weapons are allowed at company locations or events",
+      "I know how to report a violation: notify a member of leadership as soon as possible",
+      "I understand that retaliation against someone who reports a concern is itself a violation"
+    ]
+  },
+  {
+    id: 'policy-2',
+    title: 'Information Security',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 2 of 15',
+    intro: "This is the broadest and most important security policy. It covers how you work securely every day: your devices, passwords, behavior online, remote work, and what you're absolutely not allowed to do with company systems.",
+    content: `<h2>Reporting Security Incidents</h2>
+<p class="content-text">If you see something suspicious, report it immediately to the Security Delegates (Rono and Morgan). Don't wait, don't investigate on your own, just flag it. The policy includes whistleblower protections: reporting in good faith is protected from retaliation.</p>
+<h2>Your Devices</h2>
+<p class="content-text">Every device you use for work must follow these rules: <strong>lock your screen</strong> after 15 minutes of inactivity or when you step away. Don't store confidential information on USB drives or locally on mobile devices. Don't share your device with others (including family) when it has access to company resources. Report lost or stolen devices immediately.</p>
+<h2>Working Remotely</h2>
+<p class="content-text">Keep your home WiFi secure. Use a VPN when sending confidential information over public WiFi. Keep your firewall and antivirus running. Don't install unauthorized remote access tools on company devices.</p>
+<h2>Clear Screen, Clear Desk</h2>
+<p class="content-text">Don't leave confidential materials sitting out. Lock your screen when you're not at your computer.</p>
+<h2>Acceptable and Unacceptable Use</h2>
+<p class="content-text">Don't steal or pirate. Don't snoop. Don't share credentials. Don't introduce threats. Don't leak information. Don't abuse communications.</p>`,
+    checklist: [
+      "I will report any security incidents or suspicious activity to the Security Delegate immediately",
+      "I know about the whistleblower protections: reporting in good faith is protected from retaliation",
+      "My devices auto-lock after 15 minutes (or less), and I lock them when I step away",
+      "I don't store confidential data on USB drives or locally on mobile devices",
+      "I don't share my devices or credentials with anyone, including family",
+      "I keep my antivirus and firewall running and don't disable security controls",
+      "I use a VPN on public WiFi and keep my home network secured",
+      "I only access data and systems I'm authorized to use for my job",
+      "I don't install unauthorized software or remote access tools",
+      "I back up important files to Google Drive (the company's cloud storage)",
+      "I understand the unacceptable use list: no piracy, snooping, credential sharing, data exporting via USB, spam, or harassment",
+      "I follow clear desk/clear screen practices, especially when working in shared or public spaces"
+    ]
+  },
+  {
+    id: 'policy-3',
+    title: 'Asset Management',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 3 of 15',
+    intro: "This policy is about taking care of company equipment. Think of it like borrowing a friend's car: take care of it, don't lose it, and give it back when you're done.",
+    content: `<p class="content-text">The key points: the company keeps an inventory of all its assets, each asset has an assigned owner, and you're responsible for taking care of whatever is assigned to you. If something is lost or stolen, report it right away. When you leave the company, return everything.</p>
+<p class="content-text">When a device is being retired or given to someone else, all data has to be securely erased first. But that's typically handled by IT, not something you need to do yourself.</p>`,
+    checklist: [
+      "I'm responsible for taking care of any company equipment assigned to me",
+      "I'll report any lost or stolen devices immediately",
+      "I won't move company equipment off-site without authorization (remote work devices are pre-approved)",
+      "I'll return all company assets when my employment ends",
+      "I understand that devices must be securely wiped before disposal or re-use"
+    ]
+  },
+  {
+    id: 'policy-4',
+    title: 'Data Management',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 4 of 15',
+    intro: "This policy is about how Arqitech categorizes, handles, stores, and eventually gets rid of data. Pay attention to the classification system.",
+    content: `<h2>The Three Data Classifications</h2>
+<div class="highlight-box"><strong>Confidential</strong> — Customer data, PII, financial records, source code, passwords, encryption keys, salary info, incident reports. Tightly restricted access.</div>
+<div class="highlight-box"><strong>Restricted</strong> — The default for all company information. Internal policies, contracts, meeting notes, Slack messages, emails, internal reports. Internal only.</div>
+<div class="highlight-box"><strong>Public</strong> — Marketing materials, product descriptions, release notes. No special protections needed.</div>
+<h2>Day-to-Day Rules</h2>
+<p class="content-text">For <strong>confidential data</strong>: must be encrypted at rest and in transit, no USB drives, paper copies labeled and shredded when done, external sharing requires legal agreement + written management approval.</p>
+<p class="content-text">For <strong>restricted data</strong>: no USB drives, management approval for external sharing, secure disposal of paper records.</p>
+<h2>Data Retention</h2>
+<p class="content-text">We keep data as long as we need it, then securely dispose of it. Customer data is deleted within 90 days of contract termination. PII gets deleted when there's no longer a business need.</p>`,
+    checklist: [
+      "I understand the three data classifications: Confidential, Restricted, and Public",
+      "I know that the default classification for any company information is Restricted (internal only)",
+      "I will not store Confidential or Restricted data on USB drives or removable media",
+      "I know that sharing Confidential data externally requires a legal agreement and written management approval",
+      "I know that sharing Restricted data externally requires management approval",
+      "I will label paper copies of Confidential data as 'confidential' and shred them when done",
+      "I understand that PII must be deleted when there's no longer a business need for it",
+      "I know that customer data is deleted within 90 days of contract termination",
+      "I know where to check the data retention matrix if I have questions about specific data types"
+    ]
+  },
+  {
+    id: 'policy-5',
+    title: 'Cryptography',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 5 of 15',
+    intro: "This policy defines what encryption standards Arqitech uses to protect confidential information, both when it's stored ('at rest') and when it's being sent across a network ('in transit').",
+    content: `<p class="content-text">Any time we store or transmit confidential data, it must be encrypted using strong, industry-standard methods. The engineering team handles the implementation details (AES-256, RSA-2048, etc.).</p>
+<h2>What Engineers Need to Know</h2>
+<p class="content-text">Web certificates use RSA (2048-bit+) or ECC (256-bit+) with SHA2+ signatures. TLS must achieve grade B or better on SSL Labs. Data at rest uses AES-256 with annual key rotation. Passwords stored using bcrypt, PBKDF2, scrypt, or Argon2.</p>
+<h2>What Everyone Needs to Know</h2>
+<p class="content-text">Your laptop's hard drive should be encrypted. Never store confidential data on unencrypted USB drives. Use approved company channels (not personal email) to transmit sensitive data.</p>`,
+    checklist: [
+      "I understand that all confidential data must be encrypted, both when stored and when transmitted",
+      "I know my laptop's hard drive should have full-disk encryption enabled",
+      "I will not store confidential data on USB drives or removable media",
+      "I will use approved company channels (not personal email) to transmit sensitive data",
+      "(Engineers) I'm familiar with the specific algorithm and key-length requirements in the policy"
+    ]
+  },
+  {
+    id: 'policy-6',
+    title: 'Access Control',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 6 of 15',
+    intro: "This policy governs who gets access to what at Arqitech, and how that access is managed. Covers accounts, permissions, passwords, privileged access, and offboarding.",
+    content: `<h2>Core Principle: Least Privilege</h2>
+<p class="content-text">You should only have access to the systems and data you need to do your job, and nothing more. This isn't about trust, it's about minimizing risk.</p>
+<h2>Password Requirements</h2>
+<div class="highlight-box">At least <strong>8 characters</strong> with <strong>one uppercase letter</strong> and <strong>one number</strong>. Can't reuse your last <strong>8 passwords</strong>. Account locks after <strong>6 failed attempts</strong>.</div>
+<h2>Multi-Factor Authentication</h2>
+<p class="content-text">Required for privileged access to production systems. Strongly encouraged everywhere else.</p>
+<h2>Access Revocation</h2>
+<p class="content-text">When someone leaves, access is disabled within <strong>48 hours</strong>. User IDs are never reused. Access rights reviewed quarterly.</p>`,
+    checklist: [
+      "I understand that I only get access to what I need for my job (least privilege)",
+      "I know my passwords must be 8+ characters with uppercase and a number, and I can't reuse my last 8",
+      "I know my account locks after 6 failed login attempts",
+      "I will change my password immediately if I suspect it's been compromised",
+      "I will never share my credentials with anyone, including colleagues",
+      "I understand that MFA is required for privileged access and strongly encouraged everywhere",
+      "I know that my access will be reviewed quarterly and adjusted if my role changes",
+      "I know that when I leave the company, my access will be revoked within 48 hours",
+      "I know that all access requests, changes, and privileged activity are logged"
+    ]
+  },
+  {
+    id: 'policy-7',
+    title: 'Human Resource Security',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 7 of 15',
+    intro: "This policy covers the security aspects of the employee lifecycle, from hiring through to when someone leaves. Mostly about what the company does for you.",
+    content: `<p class="content-text"><strong>Hiring:</strong> Background checks for certain roles, particularly those with access to production systems or sensitive data. You'll sign confidentiality and non-disclosure agreements.</p>
+<p class="content-text"><strong>Training:</strong> All employees must complete security awareness training when hired and annually after that. That's what you're doing right now.</p>
+<p class="content-text"><strong>Performance:</strong> Adherence to security policies is part of your performance evaluation.</p>
+<p class="content-text"><strong>Offboarding:</strong> When someone leaves, access is revoked promptly and all company equipment must be returned.</p>`,
+    checklist: [
+      "I understand that background checks may be conducted based on my role's level of access",
+      "I've signed (or will sign) the required confidentiality and non-disclosure agreements",
+      "I will complete security awareness training annually",
+      "I understand that compliance with security policies is part of my performance evaluation",
+      "I know that when I leave the company, I must return all equipment and my access will be revoked"
+    ]
+  },
+  {
+    id: 'policy-8',
+    title: 'Roles & Responsibilities',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 8 of 15',
+    intro: "This policy maps out who at Arqitech is accountable for which parts of information security. Find your role and know your part.",
+    content: `<h2>Who Does What</h2>
+<p class="content-text"><strong>Senior Management</strong> (Brian, Rono, Ted, Morgan, Thaddeus) — Approve policies, allocate budget, review security reports.</p>
+<p class="content-text"><strong>Security Officer</strong> (Rono Smith, COO) — Runs the overall security program. Develops and enforces policies, leads risk assessments, coordinates audits.</p>
+<p class="content-text"><strong>Security Team</strong> (Rono, Morgan, Julian Schwartz) — Day-to-day technical security: monitoring, access controls, incident response, vulnerability assessments.</p>
+<p class="content-text"><strong>Engineering Leadership</strong> (Morgan Drmaj, CDO) — Secure development, code reviews, infrastructure security, CI/CD pipeline security.</p>
+<h2>Your Responsibilities</h2>
+<p class="content-text">Follow all security policies. Complete training. Protect credentials. Report anything suspicious. Use only approved tools. Protect company information. Follow data classification rules. Practice secure remote work. Report lost/stolen devices immediately.</p>
+<h2>Who to Contact</h2>
+<div class="highlight-box">Security questions: <strong>Rono</strong> (Security Officer)<br>Technical security issues: <strong>Security Team</strong> (Rono, Morgan, Julian)<br>Application access: <strong>The owner of the specific application</strong><br>Major incidents: Escalate to <strong>Rono → Senior Management</strong></div>`,
+    checklist: [
+      "I know who the Security Officer is (Rono Smith) and that he oversees the security program",
+      "I know the Security Team handles day-to-day technical security (Rono, Morgan, Julian)",
+      "I understand my responsibilities: follow policies, complete training, protect credentials, report incidents, use approved tools, safeguard data",
+      "I know who to contact if I have a security question or need to report an incident",
+      "I understand the escalation path: Security Team → Security Officer → Senior Management"
+    ]
+  },
+  {
+    id: 'policy-9',
+    title: 'Incident Response',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 9 of 15',
+    intro: "This is your playbook for what happens when something goes wrong: a security event, a data breach, a compromised account. One of the longest and most important policies.",
+    content: `<h2>Events vs. Incidents</h2>
+<p class="content-text">An <strong>event</strong> is normal system activity (a user logging in, a firewall blocking traffic). An <strong>incident</strong> is an event that actually harms or could harm confidentiality, integrity, or availability.</p>
+<h2>Your Job: Report It</h2>
+<p class="content-text">See something suspicious? <strong>Report it immediately</strong> to the Security Delegate or your supervisor via Slack. Be a "good witness": share what you saw, when you saw it, and relevant details. Don't discuss incidents outside the authorized team.</p>
+<h2>Severity Levels</h2>
+<div class="highlight-box"><strong>P3 (Low)</strong> — Minor issues, e.g., phishing email caught by filters.<br><strong>P2 (Medium)</strong> — Moderate impact, e.g., successful phish on one account, no data exposure.<br><strong>P1 (High)</strong> — Significant, e.g., unauthorized access to customer data systems.<br><strong>P0 (Critical)</strong> — Severe, company-wide. Confirmed breach, ransomware. All hands.</div>
+<h2>Response Process</h2>
+<p class="content-text">Triage → Investigate → Contain → Recover → Harden. P0 incidents get a formal post-mortem. If IT communications are compromised, switch to out-of-band methods (personal phones).</p>`,
+    checklist: [
+      "I know the difference between an event (normal system activity) and an incident (something harmful)",
+      "I will report anything suspicious to the Security Delegate or my supervisor via Slack immediately",
+      "I will be a 'good witness': describe what I saw, when, and any relevant details",
+      "I understand the severity levels: P3 (low) through P0 (critical)",
+      "I will not discuss incident details with anyone outside the authorized response team",
+      "I know that P0 incidents trigger root cause analysis and post-mortem meetings",
+      "I know that if internal communications are compromised, we switch to out-of-band methods"
+    ]
+  },
+  {
+    id: 'policy-10',
+    title: 'Business Continuity',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 10 of 15',
+    intro: "Covers what happens if a major disruption takes systems offline for an extended period. Good news: Arqitech is remote-first and cloud-based, so most systems would continue working even in a disaster.",
+    content: `<p class="content-text">The plan activates when a disruption lasts (or is expected to last) more than <strong>24 hours</strong>.</p>
+<h2>Recovery Targets</h2>
+<div class="highlight-box"><strong>Production hosting:</strong> 5 days maximum<br><strong>Corporate office functions:</strong> 1 day<br><strong>Collaboration tools:</strong> 1 day</div>
+<h2>Your Role</h2>
+<p class="content-text">Stay connected, follow your department lead's instructions, and be prepared to work remotely. If you're a department lead, you're responsible for communicating with your team.</p>`,
+    checklist: [
+      "I understand the plan activates for disruptions expected to last more than 24 hours",
+      "I know that most company systems are cloud-based and unaffected by physical location issues",
+      "I can work remotely if our office or primary location is disrupted",
+      "I know to follow my department lead's instructions during a BC/DR activation",
+      "I understand the recovery time targets: production systems within 5 days, office/tools within 1 day"
+    ]
+  },
+  {
+    id: 'policy-11',
+    title: 'Operations Security',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 11 of 15',
+    intro: "Heavy on technical detail. If you're not on the engineering team, focus on the sections marked for everyone.",
+    content: `<h2>For Everyone</h2>
+<p class="content-text"><strong>Change Management:</strong> All changes to production systems must be tested, documented, and reviewed before deployment. No one can approve and deploy their own changes.</p>
+<p class="content-text"><strong>Malware Protection:</strong> Your computer should have antivirus running. Don't disable it.</p>
+<div class="highlight-box"><strong>Your laptop is NOT backed up.</strong> You are responsible for storing important work files in Google Drive. If your laptop dies and your files aren't in the cloud, they may be gone.</div>
+<p class="content-text"><strong>Session Timeouts:</strong> Remote access sessions time out after 8 hours of inactivity.</p>
+<h2>For Engineers</h2>
+<p class="content-text">System hardening, network controls, logging/monitoring (30-day retention minimum), vulnerability management (Critical: 30 days, High: 60 days, Medium: 120 days), vendor remote access controls, dev/prod separation.</p>`,
+    checklist: [
+      "I understand that all changes to production systems must be tested, documented, and approved before deployment",
+      "I know my antivirus must be running and I won't disable it",
+      "I know my laptop is NOT backed up. I must store important files in Google Drive",
+      "I understand that remote sessions time out after 8 hours",
+      "(Engineers) I know the vulnerability remediation timelines: Critical 30 days, High 60 days, Medium 120 days",
+      "(Engineers) I know that default credentials must be changed before any system goes into production",
+      "(Engineers) I understand the separation requirements between development and production environments"
+    ]
+  },
+  {
+    id: 'policy-12',
+    title: 'Secure Development',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 12 of 15',
+    intro: "Primarily for the engineering team. Non-engineers: security is built into how we develop software from the start, not bolted on at the end.",
+    content: `<h2>Core Principles</h2>
+<p class="content-text"><strong>Secure-by-Design:</strong> Minimize attack surfaces, apply least privilege, defense in depth, fail securely, validate all inputs.</p>
+<p class="content-text"><strong>Privacy-by-Design:</strong> Privacy protections built in proactively. Privacy is the default. Data protected end-to-end.</p>
+<h2>Development Rules</h2>
+<p class="content-text">All code changes go through: develop → test → review → approve → deploy. No one can approve and deploy their own changes. Dev, staging, and production must be kept separate. No confidential production data in dev/test without management approval.</p>`,
+    checklist: [
+      "(Engineers) I understand that security must be considered from the start of every project",
+      "(Engineers) I cannot approve and deploy my own code changes; another person must review",
+      "(Engineers) I will not use confidential production data in development/testing without management approval",
+      "(Engineers) I understand the separation between dev, staging, and production environments",
+      "(Engineers) I will follow secure coding practices and participate in code reviews",
+      "(Non-engineers) I understand that Arqitech builds security into software development from the start"
+    ]
+  },
+  {
+    id: 'policy-13',
+    title: 'Physical Security',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 13 of 15',
+    intro: "The shortest read. Arqitech is currently remote-first with no physical office. This policy exists as a contingency for future office space.",
+    content: `<p class="content-text">This policy is largely theoretical right now. It covers building perimeter security, access control systems, visitor management, surveillance, and environmental protections.</p>
+<p class="content-text">The one relevant part: if you ever work from a client's office or attend an event on behalf of Arqitech, be mindful of physical security, don't let unauthorized people into secure areas, and follow any visitor procedures.</p>`,
+    checklist: [
+      "I understand this policy is a contingency for future physical office space",
+      "I know that if I'm at a company or client facility, I should follow visitor procedures and be mindful of physical security",
+      "I know not to let unauthorized individuals into secure areas"
+    ]
+  },
+  {
+    id: 'policy-14',
+    title: 'Risk Management',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 14 of 15',
+    intro: "The longest policy and most abstract. It defines how Arqitech identifies, evaluates, and responds to security risks. Focus on the mindset, not the details.",
+    content: `<h2>The Big Idea</h2>
+<p class="content-text">"What could go wrong, how bad would it be, how likely is it, and what are we doing about it?" Arqitech does this formally at least once a year.</p>
+<h2>Risk Scoring</h2>
+<div class="highlight-box"><strong>Likelihood</strong> (1-5) x <strong>Impact</strong> (1-5) = Risk Score. Higher scores get more attention and resources.</div>
+<h2>Response Options</h2>
+<p class="content-text"><strong>Mitigate</strong> — Reduce likelihood or impact (most common).<br><strong>Accept</strong> — Acknowledge and live with it.<br><strong>Transfer</strong> — Shift risk (e.g., insurance).<br><strong>Avoid</strong> — Eliminate the activity.</p>
+<h2>Your Role</h2>
+<p class="content-text">If you're doing something that could introduce a new risk (integrating a vendor, changing data flows, opening access paths), flag it. That's individual-level risk management: awareness and communication.</p>`,
+    checklist: [
+      "I understand that the company formally assesses risks at least annually",
+      "I know the basic concept: risks are scored by likelihood x impact, and higher scores get more attention",
+      "I understand the four response options: mitigate, accept, transfer, avoid",
+      "I will flag potential security risks when I encounter them in my work",
+      "I know that the CEO has final authority on accepting risks on behalf of the company"
+    ]
+  },
+  {
+    id: 'policy-15',
+    title: 'Third-Party Management',
+    section: 'Policies',
+    type: 'policy',
+    badge: 'Policy 15 of 15',
+    intro: "Last one! This is about how we work with vendors and external partners. Any third party that accesses our systems or data must meet our security standards.",
+    content: `<p class="content-text">Third parties must meet documented security requirements spelled out in a written agreement before access is granted. We monitor them at least annually.</p>
+<p class="content-text">We validate vendor security by reviewing SOC 2 reports, ISO 27001 certifications, or similar audit reports.</p>
+<h2>Cloud Services</h2>
+<p class="content-text">Understanding the shared responsibility model (what the provider secures vs. what we secure), evaluating vendor lock-in risks, and having an exit strategy.</p>
+<div class="highlight-box"><strong>Key rule:</strong> If you're considering a new tool or vendor that will touch company data, it must go through the proper vetting process first. Don't sign up for a new SaaS tool on your own and start feeding it company data.</div>`,
+    checklist: [
+      "I understand that all third parties accessing our data or systems must meet our security requirements",
+      "I know that written agreements are required before a third party gets access to production systems or confidential data",
+      "I will not sign up for new tools or services that touch company data without going through the proper process",
+      "I understand that third-party security is reviewed at least annually",
+      "I know that cloud vendor agreements must account for shared responsibility"
+    ]
+  },
+  {
+    id: 'quiz',
+    title: 'Scenarios & Quiz',
+    section: 'Assessment',
+    type: 'quiz'
+  },
+  {
+    id: 'certificate',
+    title: 'Certificate',
+    section: 'Completion',
+    type: 'certificate'
+  }
+];
+
+const SCENARIOS = [
+  {
+    title: "The Coffee Shop Laptop",
+    text: "You're working from a busy coffee shop. You need to step away to grab your order from the counter. It'll take 30 seconds. Your laptop is open with a client dashboard visible on screen.",
+    questions: ["Do you leave the laptop open since you'll be right back?", "What should the screen show when you step away?", "If you're working on confidential data in this setting, what additional precaution should you be using?"],
+    answer: "Lock your screen before stepping away, even for 30 seconds. Your screen should auto-lock after 15 minutes, but always lock manually when leaving your device. In a public setting, use a privacy screen and a VPN on public WiFi.",
+    policies: "Information Security Policy, Asset Management Policy"
+  },
+  {
+    title: "The Helpful Colleague",
+    text: 'A colleague on a different team messages you on Slack: "Hey, I\'m working on a project and need access to the customer database. Can you share your login so I can take a quick look?"',
+    questions: ["Can you share your credentials 'just this once'?", "What should you tell them instead?", "What if they say their manager approved it?"],
+    answer: "Never share your credentials. Every user must have their own unique access. Tell them to submit an access request through the proper channel. Even if their manager approved the project, that doesn't authorize using your account.",
+    policies: "Access Control Policy, Information Security Policy"
+  },
+  {
+    title: "The Suspicious Email",
+    text: 'You receive an email that looks like it\'s from your CEO, asking you to urgently wire transfer funds. The email address has a slight misspelling. The tone is pressured: "Handle this now, I\'m in a meeting."',
+    questions: ["Should you act on the request?", "How do you verify if this is real?", "Who do you report this to?"],
+    answer: "This is a classic phishing/BEC attack. Do not act on the request. Verify through a separate channel (Slack or phone call). Report the email to the Security Delegate immediately. Never let urgency override your judgment.",
+    policies: "Information Security Policy, Incident Response Plan"
+  },
+  {
+    title: "The New SaaS Tool",
+    text: "A team member finds a great project management tool and signs up using their work email. They start uploading internal documents and inviting team members. They didn't ask security about it first.",
+    questions: ["Is it okay to adopt new tools that help productivity?", "What's the risk here?", "What's the right process?"],
+    answer: "Any third-party tool that accesses or stores company data needs to go through a security vetting process first. The team member may have uploaded Restricted or Confidential data to an unvetted service. Stop uploading data, flag it to the Security Delegate, and wait for approval.",
+    policies: "Third-Party Management Policy, Data Management Policy, Information Security Policy"
+  },
+  {
+    title: "The Lost Laptop",
+    text: "You're traveling for work and realize your company laptop is missing. You might have left it in a taxi. It has your work email, Slack, and access to internal systems. The hard drive is encrypted.",
+    questions: ["What's your first action?", "Does encryption mean you don't need to worry?", "Who needs to know?"],
+    answer: "Report it immediately to the Security Delegate. Don't wait. Even with encryption, the device had access to company systems. The security team will assess risk, potentially initiate a remote wipe, and revoke active sessions. Report first, then try to recover the device.",
+    policies: "Asset Management Policy, Information Security Policy, Incident Response Plan, Cryptography Policy"
+  },
+  {
+    title: "The Client Data Request",
+    text: "A client's legal team emails you directly requesting a full export of all their data, including detailed user activity logs. They say it's for an internal audit.",
+    questions: ["Can you pull the data and send it directly?", "What classification does this data fall under?", "Who needs to be involved?"],
+    answer: "You cannot send this on your own. Client data is Confidential. Transferring it externally requires a legal agreement plus explicit written management approval. Loop in the Security Delegate and management to verify the request, determine scope, and arrange secure transfer.",
+    policies: "Data Management Policy, Information Security Policy, Third-Party Management Policy"
+  },
+  {
+    title: "The Personal USB Drive",
+    text: "You need to present at a conference tomorrow and want to copy your slide deck to a USB drive as a backup. The presentation contains some internal company metrics.",
+    questions: ["Can you use a USB drive for this?", "What if the data isn't 'that sensitive'?", "What are your alternatives?"],
+    answer: "The company does not authorize removable media. Internal metrics are at minimum Restricted. Alternatives: upload to Google Drive, email to yourself, or use your phone as a hotspot. Need an exception? Get documented approval from the Security Delegate beforehand.",
+    policies: "Data Management Policy, Cryptography Policy, Information Security Policy"
+  },
+  {
+    title: "The After-Hours Alert",
+    text: "It's 11 PM on a Saturday. You notice a monitoring dashboard showing unusual login activity from an IP in a country where Arqitech has no employees.",
+    questions: ["Can this wait until Monday?", "Who do you contact?", "What details should you share?"],
+    answer: "This cannot wait. Unauthorized production access is potentially P1 or P0. Contact the Security Delegate immediately via Slack (or phone if Slack isn't responsive). Share the dashboard name, user account, source IP/location, and timestamp. Don't investigate on your own.",
+    policies: "Incident Response Plan, Information Security Policy, Access Control Policy"
+  },
+  {
+    title: "The Departing Employee",
+    text: 'A colleague tells you they\'re leaving next week. They mention downloading some project files "for their portfolio" including internal architecture diagrams and code samples.',
+    questions: ["Is it okay for them to take work samples?", "Should you say something?", "Who should know?"],
+    answer: "Architecture diagrams and code are Confidential/Restricted and remain company property. Employees cannot take company data when they leave. Flag this to your manager or the Security Delegate. The offboarding process will revoke access and ensure all data is returned.",
+    policies: "Information Security Policy, Data Management Policy, Asset Management Policy, HR Security Policy, Access Control Policy"
+  },
+  {
+    title: "The Vendor Questionnaire",
+    text: "A potential new SaaS vendor sends you a security questionnaire asking about Arqitech's internal security controls, encryption standards, access management, and incident response process.",
+    questions: ["Can you fill this out and send it back?", "Is this information safe to share?", "Who handles this?"],
+    answer: "Don't fill this out on your own. Details of internal security controls are Restricted. Route this to the Security Officer (Rono). They'll determine what's appropriate to share based on the relationship and agreements. Sharing too much with unvetted parties could expose vulnerabilities.",
+    policies: "Data Management Policy, Third-Party Management Policy, Info Security Roles & Responsibilities"
+  }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+
+let state = {
+  currentStep: 0,
+  completedSteps: new Set(),
+  checklists: {},       // stepId -> Set of checked indices
+  scenariosRevealed: new Set(),
+  scenariosChecked: new Set(),
+  employeeName: ''
+};
+
+// Load saved state
+try {
+  const saved = sessionStorage.getItem('arqitech-training-state');
+  // Not using localStorage per restrictions, using in-memory with sessionStorage fallback
+} catch(e) {}
+
+// ============================================================
+// RENDERING
+// ============================================================
+
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  let html = '';
+  let currentSection = '';
+
+  STEPS.forEach((step, idx) => {
+    if (step.section !== currentSection) {
+      currentSection = step.section;
+      html += `<div class="sidebar-section">${currentSection}</div>`;
+    }
+
+    const isCompleted = state.completedSteps.has(idx);
+    const isActive = idx === state.currentStep;
+    const isLocked = idx > 0 && !state.completedSteps.has(idx - 1) && !state.completedSteps.has(idx) && idx !== state.currentStep;
+
+    let indicatorContent = '';
+    if (isCompleted) {
+      indicatorContent = `<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`;
+    } else {
+      indicatorContent = idx + 1;
+    }
+
+    const classes = [
+      'sidebar-item',
+      isActive ? 'active' : '',
+      isCompleted ? 'completed' : '',
+      isLocked ? 'locked' : ''
+    ].filter(Boolean).join(' ');
+
+    const indicatorClasses = `step-indicator ${isActive ? 'active-indicator' : ''}`;
+
+    html += `<div class="${classes}" onclick="goToStep(${idx})" data-step="${idx}">
+      <div class="${indicatorClasses}">${indicatorContent}</div>
+      <span>${step.title}</span>
+    </div>`;
+  });
+
+  sidebar.innerHTML = html;
+}
+
+function renderMainContent(scrollToTop = true) {
+  const main = document.getElementById('mainContent');
+
+  if (scrollToTop) {
+    // Crossfade: fade out, swap content, scroll, fade in
+    main.classList.add('fading-out');
+    setTimeout(() => {
+      swapMainContent(main);
+      window.scrollTo(0, 0);
+      main.classList.remove('fading-out');
+      main.classList.add('fading-in');
+      // Force reflow so the browser registers opacity:0 before transitioning
+      void main.offsetHeight;
+      main.classList.remove('fading-in');
+    }, 250);
+  } else {
+    swapMainContent(main);
+  }
+  updateProgress();
+}
+
+function swapMainContent(main) {
+  const step = STEPS[state.currentStep];
+  switch (step.type) {
+    case 'welcome': main.innerHTML = renderWelcome(); break;
+    case 'video': main.innerHTML = renderVideo(); break;
+    case 'policy': main.innerHTML = renderPolicy(step); break;
+    case 'quiz': main.innerHTML = renderQuiz(); break;
+    case 'certificate': main.innerHTML = renderCertificate(); break;
+  }
+}
+
+function renderWelcome() {
+  return `<div class="step-screen active">
+    <h1>Welcome to <span class="gold">Arqitech's</span> Security Policy Review</h1>
+    <p class="subtitle">From Morgan & Rono</p>
+
+    <p class="content-text">We need to talk about something important, and we promise to make it as painless as possible.</p>
+    <p class="content-text">As part of keeping Arqitech SOC 2 compliant, every one of us needs to review and sign off on our company's security policies. These policies exist to protect our company, our clients, and each of us personally. When you sign off, you're saying "I understand what's expected of me," and we want that to actually be true.</p>
+    <p class="content-text">There are 15 policies, and they are dense. So we've built companion guides to help.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number">15</div>
+        <div class="stat-label">Policies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">10</div>
+        <div class="stat-label">Scenarios</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Certificate</div>
+      </div>
+    </div>
+
+    <h2>How This Works</h2>
+    <p class="content-text"><strong>Step 1:</strong> Watch the Vanta security awareness video (~8 min).</p>
+    <p class="content-text"><strong>Step 2:</strong> For each policy, read the companion guide first, then read and accept the actual policy in Vanta.</p>
+    <p class="content-text"><strong>Step 3:</strong> Complete the 10 real-world scenarios quiz.</p>
+    <p class="content-text"><strong>Step 4:</strong> Download your completion certificate.</p>
+
+    <div class="highlight-box">Take your time. You don't need to finish in one sitting. Work through a few policies at a time. If something doesn't make sense after reading the companion guide, ask Morgan, Rono, or anyone on the security team.</div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="completeAndNext()">Get Started →</button>
+    </div>
+  </div>`;
+}
+
+function renderVideo() {
+  const isComplete = state.completedSteps.has(1);
+  return `<div class="step-screen active">
+    <h1>Security Awareness <span class="gold">Video</span></h1>
+    <p class="subtitle">Watch the Vanta security awareness video (~8 minutes). It covers the basics: passwords, phishing, device security, protecting sensitive information.</p>
+
+    <div style="margin: 24px 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(191, 196, 202, 0.15);">
+      <video controls style="width: 100%; display: block; background: #000;" preload="metadata">
+        <source src="https://dzas9mj7ubt6.cloudfront.net/Vanta_General_InfoSec_AwarenessV3_Minified.mp4?Expires=1775839491&Key-Pair-Id=KME1H1B5JLGC5&Signature=ExRT5lJFoSCR5DcBNb4slLttKuSLvX5OcfhJyp3hnaonegKI~q01RHESRRRtdZhRqNOfz7lh6hOaTLay2y7Fj2trmAWAtiR-NlOe2wT5ZISC-AJSVaXgqNFuZGGd-PR8rlzHZhrCtcQKqX9qGJQU1CWZ3DH4Mcch77uPbLEPn6T6OeE001pophneoq1NjW2lF8jLPBBsUOYJaT-UAPKKrpaHMtYzE5fZd1DbtsXZHMUudeZgzRlAxFojPr98w8HFt6Gv~v9cgesvm338H9g~xhupP~k5LzchZpSVbPCFAcFIkj4eiIRUc0RGv1nPSXooim2s58L~VVXfhKPNXWASDg__" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p style="text-align: center; padding: 10px; color: rgba(191,196,202,0.6); font-size: 13px; background: var(--gray-blue);">Yes, it's narrated by a llama. Just go with it.</p>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Confirm</div>
+      <div class="checklist-item ${isComplete ? 'checked-item' : ''}" onclick="toggleVideoCheck()">
+        <div class="check-box ${isComplete ? 'checked' : ''}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <label>I have watched the Vanta security awareness video</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToStep(state.currentStep - 1)">← Back</button>
+      <button class="btn btn-primary" onclick="completeAndNext()" ${!isComplete ? 'disabled' : ''} id="videoNextBtn">Continue →</button>
+    </div>
+  </div>`;
+}
+
+function renderPolicy(step) {
+  const idx = state.currentStep;
+  const stepId = step.id;
+  if (!state.checklists[stepId]) state.checklists[stepId] = new Set();
+
+  const allChecked = state.checklists[stepId].size === step.checklist.length;
+
+  let checklistHtml = step.checklist.map((item, i) => {
+    const isChecked = state.checklists[stepId].has(i);
+    return `<div class="checklist-item ${isChecked ? 'checked-item' : ''}" onclick="toggleCheck('${stepId}', ${i})">
+      <div class="check-box ${isChecked ? 'checked' : ''}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <label>${item}</label>
+    </div>`;
+  }).join('');
+
+  return `<div class="step-screen active">
+    <div class="policy-badge">${step.badge}</div>
+    <h1>${step.title}</h1>
+    <p class="subtitle">${step.intro}</p>
+    ${step.content}
+    <div class="checklist">
+      <div class="checklist-title">What You Need to Know</div>
+      ${checklistHtml}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToStep(state.currentStep - 1)">← Back</button>
+      <button class="btn btn-primary" onclick="completeAndNext()" ${!allChecked ? 'disabled' : ''} id="policyNextBtn">
+        ${idx < STEPS.length - 1 ? 'Continue →' : 'Finish'}
+      </button>
+      <span style="font-size: 12px; color: var(--silver); margin-left: 8px;" id="checkHint">
+        ${!allChecked ? `${state.checklists[stepId].size}/${step.checklist.length} checked` : 'All confirmed!'}
+      </span>
+    </div>
+  </div>`;
+}
+
+function renderQuiz() {
+  const allRevealed = state.scenariosRevealed.size === 10;
+  const allChecked = state.scenariosChecked.size === 10;
+
+  let html = `<div class="step-screen active">
+    <h1>Real-World <span class="gold">Scenarios</span></h1>
+    <p class="subtitle">You've made it through all 15 policies. Now let's see if it stuck. Think through each scenario before revealing the answer.</p>`;
+
+  SCENARIOS.forEach((s, i) => {
+    const isRevealed = state.scenariosRevealed.has(i);
+    const isChecked = state.scenariosChecked.has(i);
+
+    html += `<div class="scenario-card">
+      <div class="scenario-number">Scenario ${i + 1}</div>
+      <div class="scenario-title">${s.title}</div>
+      <div class="scenario-text">${s.text}</div>
+      <div class="scenario-questions">
+        ${s.questions.map(q => `<div>• ${q}</div>`).join('')}
+      </div>
+      ${!isRevealed ?
+        `<button class="reveal-btn" onclick="revealScenario(${i})">Reveal Answer</button>` :
+        `<div class="scenario-answer revealed">
+          ${s.answer}
+          <div class="scenario-policies">Policies: ${s.policies}</div>
+        </div>
+        <div class="scenario-check" onclick="toggleScenarioCheck(${i})">
+          <div class="check-box ${isChecked ? 'checked' : ''}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <label style="font-size: 13px; color: var(--silver); cursor: pointer;">I understand this scenario</label>
+        </div>`
+      }
+    </div>`;
+  });
+
+  html += `<div class="btn-row">
+    <button class="btn btn-secondary" onclick="goToStep(state.currentStep - 1)">← Back</button>
+    <button class="btn btn-primary" onclick="completeAndNext()" ${!allChecked ? 'disabled' : ''} id="quizNextBtn">
+      Complete Training →
+    </button>
+    <span style="font-size: 12px; color: var(--silver); margin-left: 8px;">
+      ${!allChecked ? `${state.scenariosChecked.size}/10 scenarios confirmed` : 'All confirmed!'}
+    </span>
+  </div></div>`;
+
+  return html;
+}
+
+function renderCertificate() {
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  return `<div class="step-screen active">
+    <div class="certificate-container">
+      <h1 style="margin-bottom: 24px;">Training <span class="gold">Complete</span></h1>
+      <p class="content-text" style="text-align: center; margin-bottom: 32px;">Enter your name below and download your certificate of completion.</p>
+
+      <div class="certificate" id="certificateEl">
+        <div class="cert-logo">ARQITECH</div>
+        <div class="cert-title">Certificate of Completion</div>
+        <div class="cert-subtitle">SOC 2 Security Policy Training</div>
+
+        <div class="cert-name-label">Awarded To</div>
+        <input class="cert-name-input" type="text" id="certName" placeholder="Enter your full name" oninput="state.employeeName = this.value; updateDownloadBtn();" value="${state.employeeName}">
+
+        <div class="cert-details">
+          Has successfully reviewed all 15 Arqitech security policies,<br>
+          completed the companion training guides, and demonstrated<br>
+          comprehension through the real-world scenarios assessment.
+          <br><br>
+          <span class="cert-date">${dateStr}</span>
+        </div>
+
+        <div class="cert-footer">
+          <span>Arqitech, Inc.</span>
+          <span>SOC 2 Compliance Training Program</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="downloadBtn" onclick="downloadCertificate()" ${!state.employeeName ? 'disabled' : ''}>
+        Download Certificate (PDF)
+      </button>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+
+function goToStep(idx) {
+  if (idx < 0 || idx >= STEPS.length) return;
+  // Allow going to any completed step or the next uncompleted one
+  const maxAllowed = Math.max(...[...state.completedSteps], -1) + 1;
+  if (idx > maxAllowed && !state.completedSteps.has(idx)) return;
+
+  state.currentStep = idx;
+  renderSidebar();
+  renderMainContent();
+}
+
+function completeAndNext() {
+  state.completedSteps.add(state.currentStep);
+  if (state.currentStep < STEPS.length - 1) {
+    state.currentStep++;
+  }
+  renderSidebar();
+  renderMainContent();
+
+  // Confetti on certificate step
+  if (STEPS[state.currentStep].type === 'certificate') {
+    setTimeout(launchConfetti, 300);
+  }
+}
+
+function toggleVideoCheck() {
+  if (state.completedSteps.has(1)) {
+    state.completedSteps.delete(1);
+  } else {
+    state.completedSteps.add(1);
+  }
+  // Targeted update: toggle the checkbox and button without re-rendering
+  const checkBox = document.querySelector('.check-box');
+  const checkItem = document.querySelector('.checklist-item');
+  const nextBtn = document.getElementById('videoNextBtn');
+  const isComplete = state.completedSteps.has(1);
+  if (checkBox) checkBox.className = isComplete ? 'check-box checked' : 'check-box';
+  if (checkItem) checkItem.className = isComplete ? 'checklist-item checked-item' : 'checklist-item';
+  if (nextBtn) nextBtn.disabled = !isComplete;
+  renderSidebar();
+  updateProgress();
+}
+
+function toggleCheck(stepId, idx) {
+  if (!state.checklists[stepId]) state.checklists[stepId] = new Set();
+  if (state.checklists[stepId].has(idx)) {
+    state.checklists[stepId].delete(idx);
+  } else {
+    state.checklists[stepId].add(idx);
+  }
+
+  // Targeted update: just toggle the clicked checkbox
+  const items = document.querySelectorAll('.checklist-item');
+  const item = items[idx];
+  if (item) {
+    const box = item.querySelector('.check-box');
+    const isChecked = state.checklists[stepId].has(idx);
+    box.className = isChecked ? 'check-box checked' : 'check-box';
+    item.className = isChecked ? 'checklist-item checked-item' : 'checklist-item';
+  }
+
+  // Update the continue button and hint
+  const step = STEPS[state.currentStep];
+  const allChecked = state.checklists[stepId].size === step.checklist.length;
+  const nextBtn = document.getElementById('policyNextBtn');
+  const hint = document.getElementById('checkHint');
+  if (nextBtn) nextBtn.disabled = !allChecked;
+  if (hint) hint.textContent = allChecked ? 'All confirmed!' : `${state.checklists[stepId].size}/${step.checklist.length} checked`;
+}
+
+function revealScenario(idx) {
+  state.scenariosRevealed.add(idx);
+  // Targeted update: replace the reveal button with the answer
+  const cards = document.querySelectorAll('.scenario-card');
+  const card = cards[idx];
+  if (card) {
+    const s = SCENARIOS[idx];
+    const btn = card.querySelector('.reveal-btn');
+    if (btn) {
+      const answerHtml = `<div class="scenario-answer revealed">
+        ${s.answer}
+        <div class="scenario-policies">Policies: ${s.policies}</div>
+      </div>
+      <div class="scenario-check" onclick="toggleScenarioCheck(${idx})">
+        <div class="check-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <label style="font-size: 13px; color: var(--silver); cursor: pointer;">I understand this scenario</label>
+      </div>`;
+      btn.remove();
+      card.insertAdjacentHTML('beforeend', answerHtml);
+    }
+  }
+}
+
+function toggleScenarioCheck(idx) {
+  if (state.scenariosChecked.has(idx)) {
+    state.scenariosChecked.delete(idx);
+  } else {
+    state.scenariosChecked.add(idx);
+  }
+
+  // Targeted update: toggle the scenario checkbox
+  const cards = document.querySelectorAll('.scenario-card');
+  const card = cards[idx];
+  if (card) {
+    const box = card.querySelector('.scenario-check .check-box');
+    const isChecked = state.scenariosChecked.has(idx);
+    if (box) box.className = isChecked ? 'check-box checked' : 'check-box';
+  }
+
+  // Update the quiz continue button
+  const allChecked = state.scenariosChecked.size === 10;
+  const nextBtn = document.getElementById('quizNextBtn');
+  if (nextBtn) nextBtn.disabled = !allChecked;
+  const hint = nextBtn ? nextBtn.parentElement.querySelector('span') : null;
+  if (hint) hint.textContent = allChecked ? 'All confirmed!' : `${state.scenariosChecked.size}/10 scenarios confirmed`;
+}
+
+function updateProgress() {
+  const total = STEPS.length;
+  const completed = state.completedSteps.size;
+  const pct = (completed / total) * 100;
+
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('completedCount').textContent = completed;
+}
+
+function updateDownloadBtn() {
+  const btn = document.getElementById('downloadBtn');
+  if (btn) btn.disabled = !state.employeeName.trim();
+}
+
+// ============================================================
+// CERTIFICATE PDF GENERATION
+// ============================================================
+
+function downloadCertificate() {
+  const name = state.employeeName.trim();
+  if (!name) return;
+
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Generate a simple HTML-to-print PDF
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`<!DOCTYPE html>
+<html>
+<head>
+<title>Arqitech Security Training Certificate</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+  @page { size: landscape; margin: 0; }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: #101010;
+  }
+  .cert {
+    width: 900px; height: 600px;
+    background: white;
+    border-radius: 8px;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .cert::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #C89A3F, #FFF1B0, #C89A3F);
+  }
+  .cert::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #C89A3F, #FFF1B0, #C89A3F);
+  }
+  .logo { font-size: 22px; font-weight: 700; color: #C89A3F; letter-spacing: 3px; margin-bottom: 10px; }
+  .title { font-size: 32px; font-weight: 700; color: #101010; margin-bottom: 4px; }
+  .sub { font-size: 14px; color: #888; margin-bottom: 40px; }
+  .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #C89A3F; margin-bottom: 8px; }
+  .name { font-size: 36px; font-weight: 600; color: #101010; border-bottom: 2px solid #C89A3F; padding-bottom: 8px; display: inline-block; min-width: 300px; margin-bottom: 32px; }
+  .desc { font-size: 14px; color: #555; line-height: 1.8; max-width: 600px; }
+  .date { font-weight: 600; color: #101010; font-size: 15px; margin-top: 20px; }
+  .footer { position: absolute; bottom: 24px; left: 60px; right: 60px; display: flex; justify-content: space-between; font-size: 11px; color: #aaa; }
+</style>
+</head>
+<body>
+<div class="cert">
+  <div class="logo">ARQITECH</div>
+  <div class="title">Certificate of Completion</div>
+  <div class="sub">SOC 2 Security Policy Training</div>
+  <div class="label">Awarded To</div>
+  <div class="name">${name}</div>
+  <div class="desc">
+    Has successfully reviewed all 15 Arqitech security policies,
+    completed the companion training guides, and demonstrated
+    comprehension through the real-world scenarios assessment.
+  </div>
+  <div class="date">${dateStr}</div>
+  <div class="footer">
+    <span>Arqitech, Inc.</span>
+    <span>SOC 2 Compliance Training Program</span>
+  </div>
+</div>
+<script>
+  setTimeout(() => { window.print(); }, 500);
+<\/script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+
+function launchConfetti() {
+  const container = document.createElement('div');
+  container.className = 'confetti-container';
+  document.body.appendChild(container);
+
+  const colors = ['#C89A3F', '#FFF1B0', '#4FA177', '#BFC4CA', '#FFFFFF'];
+
+  for (let i = 0; i < 80; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = (Math.random() * 8 + 4) + 'px';
+    piece.style.height = (Math.random() * 8 + 4) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.animation = `confettiFall ${Math.random() * 2 + 1.5}s ease-out ${Math.random() * 0.5}s forwards`;
+    container.appendChild(piece);
+  }
+
+  // Add animation dynamically
+  if (!document.getElementById('confetti-style')) {
+    const style = document.createElement('style');
+    style.id = 'confetti-style';
+    style.textContent = `
+      @keyframes confettiFall {
+        0% { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+        100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  setTimeout(() => container.remove(), 4000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+
+renderSidebar();
+renderMainContent();
+</script>
+</body>
+</html>
